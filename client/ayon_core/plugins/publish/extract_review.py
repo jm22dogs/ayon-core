@@ -484,7 +484,7 @@ class ExtractReview(pyblish.api.InstancePlugin):
 
                 files = temp_data.origin_repre["files"]
                 collections = clique.assemble(
-                    files,
+                    files, minimum_items=1
                 )[0]
                 if len(collections) != 1:
                     raise KnownPublishError(
@@ -705,7 +705,7 @@ class ExtractReview(pyblish.api.InstancePlugin):
 
         if input_is_sequence and repre["files"]:
             # Calculate first frame that should be used
-            cols, _ = clique.assemble(repre["files"])
+            cols, _ = clique.assemble(repre["files"], minimum_items=1)
             input_frames = list(sorted(cols[0].indexes))
             first_sequence_frame = input_frames[0]
             # WARNING: This is an issue as we don't know if first frame
@@ -1185,7 +1185,7 @@ class ExtractReview(pyblish.api.InstancePlugin):
         dst_staging_dir = new_repre["stagingDir"]
 
         if temp_data.input_is_sequence:
-            collections = clique.assemble(repre["files"])[0]
+            collections = clique.assemble(repre["files"], minimum_items=1)[0]
             full_input_path = os.path.join(
                 src_staging_dir,
                 collections[0].format("{head}{padding}{tail}")
